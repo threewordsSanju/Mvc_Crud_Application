@@ -13,75 +13,32 @@
   http://www.springframework.org/schema/tx/spring-tx.xsd
   http://www.springframework.org/schema/mvc 
   http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-
 	<context:component-scan base-package="product" />
 	<tx:annotation-driven />
 	<mvc:annotation-driven></mvc:annotation-driven>
 	<mvc:resources location="/WEB-INF/resources/**"
 		mapping="/WEB-INF/resources/**" />
-	<!-- View Resolver -->
+
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
 
+	<bean name="productDao" class="product.repository.ProductDao" />
 
-
-	<!-- data source -->
-	<bean
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		name="ds">
-
-		<property name="driverClassName"
-			value="org.postgresql.Driver" />
-		<property name="url"
-			value="jdbc:postgresql://localhost:5432/postgres" />
-		<property name="username" value="postgres" />
-		<property name="password" value="sanju" />
-
-	</bean>
-
-
-	<bean
-		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
-		name="factory">
-
-		<!-- data source -->
-		<property name="dataSource" ref="ds"></property>
-
-		<!-- hibernate properties -->
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
-				<prop key="hibernate.show_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-			</props>
-		</property>
-
-		<!-- annotated classes -->
-		<property name="annotatedClasses">
-			<list>
-				<!-- <value>com.demo.model.Employee</value> -->
-				<value>product.model.Product</value>
-			</list>
+	<bean name="ProductService"
+		class="product.service.ProductServiceImpl">
+		<property name="ProductDao">
+			<ref bean="productDao" />
 		</property>
 	</bean>
 
-	<bean class="org.springframework.orm.hibernate5.HibernateTemplate"
-		name="hibernateTemplate">
-		<property name="sessionFactory" ref="factory"></property>
+
+	<bean name="mainController"
+		class="product.controller.MainController">
+		<property name="productService">
+			<ref bean="ProductService" />
+		</property>
 	</bean>
-
-	<bean
-		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
-		name="transactionManager">
-		<property name="sessionFactory" ref="factory"></property>
-	</bean>
-
-
-
-	<!-- <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager"> 
-		<property name="sessionFactory" ref="sessionFactory" /> </bean> -->
-
 </beans>

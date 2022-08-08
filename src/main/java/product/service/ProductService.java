@@ -3,6 +3,7 @@ package product.service;
 import java.util.List;
 
 import product.model.Product;
+import product.repository.ProductDao;
 
 public interface ProductService {
 	public List<Product> getProducts();
@@ -14,4 +15,5 @@ public interface ProductService {
 	public Product getSingleById(int pid);
 
 	public Product updateProduct(Product product);
+
 }

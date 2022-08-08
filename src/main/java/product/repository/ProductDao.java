@@ -2,54 +2,65 @@ package product.repository;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-import javax.websocket.Session;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate5.HibernateTemplate;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Component;
 
 import product.model.Product;
 
 @Component
 public class ProductDao {
-	@Autowired
-	private HibernateTemplate hibernatetemplate;
+
+	private SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+//	SessionFactory sessionfactory=
 
 	// create
-	@Transactional
 	public Product createProduct(Product product) {
-		hibernatetemplate.save(product);
-		return product;
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(product);
+		session.getTransaction().commit();
+		session.close();		return product;
 	}
 
+	
 	// update
-	@Transactional
 	public Product updateProduct(Product product) {
-		hibernatetemplate.update(product);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.update(product);
+		session.getTransaction().commit();
+		session.close();
 		return product;
 	}
 
-	@Transactional
-	// get all products
+//	 get all products
 	public List<Product> getProducts() {
-		List<Product> products = hibernatetemplate.loadAll(Product.class);
-		return products;
+		Session session = sessionFactory.openSession();
+		String hql = "From Product p";
+		Query query = session.createQuery(hql);
+		List<Product> resultList = query.list();
+		return resultList;
 	}
 
-	@Transactional
 	// delete single product
 	public String deleteProduct(int pid) {
-		Product p = hibernatetemplate.load(Product.class, pid);
-		hibernatetemplate.delete(p);
+
+		Session session = sessionFactory.openSession();
+		Product p = session.load(Product.class, pid);
+		session.beginTransaction();
+		session.delete(p);
+		session.getTransaction().commit();
+		session.close();
 		return "deleted successfully";
 	}
 
-	@Transactional
 	// get the single product
 	public Product getSingleById(int pid) {
-		Product findProduct = hibernatetemplate.get(Product.class, pid);
-		return findProduct;
+		Session session = sessionFactory.openSession();
+		Product p = session.find(Product.class, pid);
+		return p;
 	}
-
 }

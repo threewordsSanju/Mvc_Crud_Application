@@ -4,13 +4,9 @@
 <html>
 <head>
 <style type="text/css">
-
-
-
 body{
 body {background-color: coral;}
  }
-
 
 </style>
 
@@ -28,11 +24,13 @@ function myFunction() {
 <%@include file="./base.jsp"%>
 </head>
 <body  style="background-color:lightBlue;">
-	<div class="container mt-3">
+	<div class="container mt-3"style="display: flex;justify-content: center; align-items: center;">
+	
+	<div class="card" style="width: 40rem;background-color:lightGrey">
 		<div class="row">
 			<div class="col-md-6 offset-md-3">
 
-				<h1 class="text-center mb-3">Fill the product Details</h1>
+				<h1 class="text-center mb-3">Fill the device Details</h1>
 
 				<form action="handle-product" method="post">
 					<div class="form-group">
@@ -43,8 +41,8 @@ function myFunction() {
 
 
 					<div class="form-group">
-						<label for="productDescription">productDescription</label>
-						<textarea rows="4" class="form-control" id="productDescription"  required="required"
+						<label for="productDescription">productDescription</label>    
+						<textarea rows="4" class="form-control" id="productDescription"  required="required"    
 							name="description" placeholder="Enter the product Description"></textarea>
 					</div>
 
@@ -55,14 +53,18 @@ function myFunction() {
 							placeholder="Enter productc price">
 					</div>
 
-					<div class="container text-center">
+					<div class="container text-center ">
 						<a href="${pageContext.request.contextPath}/"
 							class="btn btn-outline-danger">Back</a>
-						<button type="submit" class="btn btn-primary"  onclick="myFunction()" >Add</button>
+						<button type="submit" class="btn btn-primary"   >Add</button>
+						<!-- onclick="myFunction()" -->
 					</div>
-
+					
+					<hr>
+					
 				</form>
 			</div>
+		</div>
 		</div>
 	</div>
 </body>

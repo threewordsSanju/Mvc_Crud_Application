@@ -22,13 +22,12 @@ function myFunction() {
 		<div class="row">
 			<div class="col-md-6 offset-md-3">
 
-				<h1 class="text-center mb-3">Update the product Details</h1>
-
+				<h1 class="text-center mb-3">Update the device Details</h1>
 				<form action="${pageContext.request.contextPath}/update-product" method="post">
 
 
 					<div class="form-group">
-						<label for="id">Product ID</label> <input type="text" required="required"
+						<label for="id">Product ID</label> <input type="number" required="required"
 							class="form-control" id="id" name="id"
 							aria-describedby="emailHelp" value="${products.id}">
 					</div>
@@ -62,6 +61,7 @@ function myFunction() {
 					</div>
 
 				</form>
+				<hr>
 			</div>
 		</div>
 	</div>

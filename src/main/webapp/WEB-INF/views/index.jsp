@@ -15,13 +15,11 @@ function myFanction() {
 </head>
 <body style="background-color:lightBlue;">
 
-
-
 	<div class="container mt-3">
 		<div class="col-md-12">
-			<h1 class="text-center mb-3">Welcome to the Product App</h1>
+			<h1 class="text-center mb-3">Welcome to the device App</h1>
 
-			<table class="table">
+			<table class="table table-hover table-dark">
 				<thead class="thead-dark">
 					<tr>
 						<th scope="col">S.NO</th>

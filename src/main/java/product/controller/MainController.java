@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,18 +18,25 @@ import product.service.ProductServiceImpl;
 @Controller
 public class MainController {
 
-	@Autowired
-	private ProductServiceImpl productdao;
+	private ProductServiceImpl productService;
+
+	public ProductServiceImpl getProductService() {
+		return productService;
+	}
+
+	public void setProductService(ProductServiceImpl productService) {
+		this.productService = productService;
+	}
 
 	@RequestMapping("/")
 	public String home(Model m) {
-		List<Product> products = productdao.getProducts();
+		List<Product> products = productService.getProducts();
 		m.addAttribute("product", products);
 		return "index";
 	}
 
 	// show add product form
-	@RequestMapping("/addproduct")
+	@RequestMapping(value = "/addproduct")
 	public String addProduct(Model m) {
 		m.addAttribute("title", "Add product");
 		return "add_product_form";
@@ -40,34 +46,34 @@ public class MainController {
 	@RequestMapping(value = "/handle-product", method = RequestMethod.POST)
 	public RedirectView handleProduct(@ModelAttribute Product product, HttpServletRequest request) {
 		System.out.println(product);
-		productdao.createProduct(product);
+		productService.createProduct(product);
 		RedirectView redirectview = new RedirectView();
 		redirectview.setUrl(request.getContextPath() + "/");
 		return redirectview;
 	}
 
-//delete handler
-	@RequestMapping("/delete/{productId}")
+	// delete handler
+	@RequestMapping(value = "/delete/{productId}")
 	public RedirectView deleteProduct(@PathVariable("productId") int productId, HttpServletRequest request) {
-		this.productdao.deleteProduct(productId);
+		this.productService.deleteProduct(productId);
 		RedirectView redirectview = new RedirectView();
 		redirectview.setUrl(request.getContextPath() + "/");
 		return redirectview;
 	}
 
 	// update handler
-	@RequestMapping("/update/{productId}")
-	public String updateProduct(@PathVariable("productId") int pid, Model model) {
-		Product product = productdao.getSingleById(pid);
+	@RequestMapping(value = "/update/{productI}")
+	public String updateProduct(@PathVariable("productI") int pid, Model model) {
+		Product product = productService.getSingleById(pid);
 		model.addAttribute("products", product);
 		return "update_form";
 	}
-	
+
 	// handle add product form
 	@RequestMapping(value = "/update-product", method = RequestMethod.POST)
 	public RedirectView updateProduct(@ModelAttribute Product product, HttpServletRequest request) {
 		System.out.println(product);
-		productdao.updateProduct(product);
+		productService.updateProduct(product);
 		RedirectView redirectview = new RedirectView();
 		redirectview.setUrl(request.getContextPath() + "/");
 		return redirectview;
